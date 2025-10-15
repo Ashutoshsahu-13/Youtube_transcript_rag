@@ -1,28 +1,41 @@
-from data_ingestion import fetch_transcript
-from text_spliter import text_split
-from embeedding import embedding_store
-from retriver import retriver
-from prompt_template import QA_PROMPT
-from config import EMBEDDING_MODEL,LLM
-from logger import setup_logger
-logger=setup_logger()
-def main():
-    video_id="BMym71Dwox0"
-    
-    transcript=fetch_transcript(video_id)
-    
-    chunks=text_split(transcript)
-    
-    vector_store=embedding_store(chunks,EMBEDDING_MODEL)
-    
-    model=retriver(vector_store,QA_PROMPT,LLM)
-    
-    question="Check if the video discusses 'Serializers' and explain."
-    ans=model.invoke(question)
-    print(ans)
+# src/main.py
+import uvicorn
+import asyncio
+from .logger import setup_logger
+from .api import app  # Import FastAPI app
+from .config import EMBEDDING_MODEL, LLM  # Optional preload check
 
-if __name__ =="__main__":
-    main()
-    
-    
-    
+logger = setup_logger()
+
+async def startup_tasks():
+    """
+    Run async startup tasks before starting the API.
+    This can include preloading models, verifying connections, etc.
+    """
+    logger.info(" Initializing YouTube RAG Service components...")
+
+    # Example: Verify LLM and embedding model load
+    try:
+        _ = EMBEDDING_MODEL
+        _ = LLM
+        logger.info("✅ Core models verified successfully.")
+    except Exception as e:
+        logger.error(f" Failed to initialize core models: {e}")
+        raise e
+
+    logger.info(" Startup tasks completed successfully.")
+
+def run():
+    """Start FastAPI using Uvicorn programmatically."""
+    logger.info("🚀 Starting YouTube RAG API Service...")
+    uvicorn.run(
+        "src.api:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )
+
+if __name__ == "__main__":
+    asyncio.run(startup_tasks())
+    run()

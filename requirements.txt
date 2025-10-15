@@ -6,3 +6,6 @@ langchain-groq
 youtube-transcript-api
 faiss-cpu
 sentence-transformers
+fastapi
+streamlit
+uvicorn

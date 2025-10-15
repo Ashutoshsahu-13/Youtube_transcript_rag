@@ -1,5 +1,6 @@
 from langchain_core.prompts import PromptTemplate
-
+from src.logger import setup_logger
+logger=setup_logger()
 QA_PROMPT = PromptTemplate(
     template="""
     You are a helpful assistant.
@@ -11,3 +12,4 @@ QA_PROMPT = PromptTemplate(
     """,
     input_variables=['context', 'question']
 )
+logger.info("prompt template initialized successfully.")

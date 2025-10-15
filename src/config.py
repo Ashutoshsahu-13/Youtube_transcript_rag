@@ -1,7 +1,6 @@
 from langchain_groq import ChatGroq
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.embeddings import SentenceTransformerEmbeddings
-
+from langchain_community.embeddings import SentenceTransformerEmbeddings
 from dotenv import load_dotenv
 import os
 
