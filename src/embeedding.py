@@ -30,7 +30,7 @@ def embedding_store(chunks, embeddings,batch_size=10,save_path="faiss_indexes", 
         folder_path=save_path,
         embeddings=embeddings,
         index_name=video_id,
-        allow_dangerous_deserialization=True  # ✅ opt-in for trusted local files
+        allow_dangerous_deserialization=True  #  opt-in for trusted local files
         )
     logger.info(f"Starting embedding process for {len(chunks)} chunks (batch_size={batch_size})")
     vector_store = None

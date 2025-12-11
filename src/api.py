@@ -5,7 +5,7 @@ from .service import pipeline
 from .logger import setup_logger
 
 logger = setup_logger()
-app = FastAPI(title="🎬 YouTube RAG Backend", version="1.0")
+app = FastAPI(title=" YouTube RAG ", version="1.0")
 
 # Cache pipelines per video
 pipelines = {}
@@ -19,6 +19,12 @@ class QueryRequest(BaseModel):
     question: str
 
 # ----------------- ROUTES -----------------
+
+@app.get("/health")
+async def health_check():
+    """Simple health check endpoint."""
+    return {"status": "ok", "message": "RAG API is running "}
+
 
 @app.post("/process")
 async def process_video(request: ProcessRequest):
@@ -74,7 +80,4 @@ async def query_video(request: QueryRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/health")
-async def health_check():
-    """Simple health check endpoint."""
-    return {"status": "ok", "message": "RAG API is running 🚀"}
+
