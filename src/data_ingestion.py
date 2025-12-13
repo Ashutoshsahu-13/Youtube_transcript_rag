@@ -1,13 +1,13 @@
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from googletrans import Translator
+
 from src.logger import setup_logger
 
 logger=setup_logger()
 executor=ThreadPoolExecutor()
-translator=Translator()
-async def fetch_transcript(video_id:str,translate_to_en=True    )->str:
+
+async def fetch_transcript(video_id:str)->str:
     """
     Asynchronously fetches and joins transcript text for a given YouTube video ID.
 
